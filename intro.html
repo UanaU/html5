@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>자기소개 페이지</title>
+    <style>
+        @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+
+        html {
+            scroll-behavior: smooth;
+        }
+        body {
+            font-family: 'Pretendard', sans-serif;
+            background-color: #f4f7f6;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 0;
+            padding: 50px 20px;
+            line-height: 1.6;
+        }
+        nav {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 30px;
+            width: 100%;
+            max-width: 580px;
+        }
+        nav a {
+            text-decoration: none;
+            color: white;
+            background-color: #748ffc;
+            padding: 10px 22px;
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 14px;
+        }
+        .container {
+            background-color: #ffffff;
+            width: 100%;
+            max-width: 1000px;
+            padding: 50px;
+            border-radius: 24px;
+            box-sizing: border-box;
+        }
+        .profile, .dog, .music, .movie, .hobby, .fourth {
+            margin-bottom: 60px;
+            scroll-margin-top: 40px; 
+        }
+        h1 {
+            font-size: 20px;
+            color: #212529;
+            border-bottom: 2px solid #f1f3f5;
+            padding-bottom: 12px;
+            margin-top: 0;
+            margin-bottom: 24px;
+        }
+        .profile {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .iden {
+            background-color: #f8f9fa;
+            padding: 24px 30px;
+            border-radius: 16px;
+            line-height: 2; 
+            font-size: 16px;
+            margin: 0;
+            width: 100%;
+            box-sizing: border-box;
+            border: 1px solid #f1f3f5;
+        }
+        .iden strong {
+            color: #5c7cfa;
+            display: inline-block;
+            width: 70px;
+        }
+        .dog {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 20px;
+        }
+        .profile-img-wrap, .profile-vid-wrap {
+            flex: 1;
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            border-radius: 16px;
+            overflow: hidden;
+            position: relative;
+        }
+        .dog img, .dog video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+        .img-caption {
+            font-size: 14px;
+            color: #868e96;
+            margin: 0;
+            font-weight: 500;
+            text-align: center;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: rgba(255, 255, 255, 0.7);
+            padding: 8px 0;
+        }
+        .music-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: repeat(3, auto);
+            grid-auto-flow: column;
+            gap: 12px 20px;
+        }
+        .music-list li {
+            display: flex;
+            align-items: center;
+            background-color: #f8f9fa;
+            padding: 12px 16px;
+            border-radius: 12px;
+            font-size: 15px;
+        }
+        .month {
+            background-color: #ffe066;
+            color: #495057;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-right: 15px;
+        }
+        .music-list img {
+            width: 48px;
+            height: 48px;
+            border-radius: 10px;
+            margin-left: auto;
+            object-fit: cover;
+        }
+        .m-list {
+            list-style: none;
+            padding: 0;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 24px;
+        }
+        .m-list li {
+            text-align: center;
+            font-size: 14px;
+            font-weight: 600;
+            color: #495057;
+        }
+        .m-list img {
+            width: 100%;
+            aspect-ratio: 3/4;
+            object-fit: cover;
+            border-radius: 12px;
+            margin-bottom: 12px;
+            display: block;
+        }
+        .hobby p {
+            background-color: #f8f9fa;
+            padding: 16px;
+            border-radius: 12px;
+            text-align: center;
+            font-weight: 600;
+            color: #5c7cfa;
+            margin-top: 0;
+            margin-bottom: 24px;
+            border: 1px dashed #ced4da;
+        }
+        .game-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-direction: row;
+            gap: 20px;
+        }
+        .game-list li {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #ffffff;
+            border: 1px solid #e9ecef;
+            padding: 16px;
+            border-radius: 12px;
+            font-size: 15px;
+            font-weight: 600;
+            color: #343a40;
+            text-align: center;
+        }
+        .list-icon {
+            width: 100%;
+            height: 160px;
+            border-radius: 10px;
+            margin-right: 0;
+            margin-bottom: 16px;
+            object-fit: cover;
+        }
+        .back-btn {
+            text-decoration: none;
+            color: #495057;
+            background-color: #ffe066;
+            padding: 14px 22px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 15px;
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <nav class="wrap">
+        <a href="#profile">소개</a>
+        <a href="#dog">강아지</a>
+        <a href="#music">노래</a>
+        <a href="#movie">영화</a>
+        <a href="#hobby">취미</a>
+    </nav>
+    <div class="container">        
+        <div class="categ">
+            <div id="profile" class="profile">
+                <p class="iden">
+                    <strong>이름</strong> 장유안<br>
+                    <strong>나이</strong> 26살<br>
+                    <strong>혈액형</strong> A형<br>
+                    <strong>MBTI</strong> INTP
+                </p>
+            </div>      
+            <div id="dog" class="dog">
+                <div class="profile-img-wrap">
+                    <img src="./images/maple.JPG" alt="dog">
+                    <p class="img-caption">단풍이</p>
+                </div>
+                <div class="profile-vid-wrap">
+                    <video src="./images/ssoya.MOV" controls></video>
+                </div>
+            </div>
+            <div id="music" class="music">
+                <h1>2026년 월별 가장 많이 들은 노래</h1>
+                <ul class="music-list">
+                    <li><span class="month">1월</span> NASA - Ariana Grande <img src="./images/ari.jpg" alt="NASA"></li>
+                    <li><span class="month">2월</span> 안녕 - 샤이니 <img src="./images/shinee.jpg" alt="Annyeong"></li>
+                    <li><span class="month">3월</span> Mosaic - off the menu <img src="./images/offthemenu.jpg" alt="Mosaic"></li>
+                    <li><span class="month">4월</span> Super Shy - 뉴진스 <img src="./images/supershy.jpg" alt="SuperShy"></li>
+                    <li><span class="month">5월</span> 사랑의 꿈 - 프란츠 리스트 <img src="./images/liszt.jpg" alt="liszt"></li>
+                    <li><span class="month">6월</span> Happier Than Ever - Billie Eilish <img src="./images/billie.jpg" alt="HTE"></li>
+                </ul>
+            </div> 
+            <div id="movie" class="movie">
+                <h1>마구 보는 영화</h1>
+                <ul class="m-list">
+                    <li><img src="./images/thg.jpg" alt="THG"><br>헝거게임</li>
+                    <li><img src="./images/gore.jpg" alt="Gore"><br>아무도 모른다</li>
+                    <li><img src="./images/jojo.jpg" alt="JOJO"><br>조조래빗</li>
+                    <li><img src="./images/pirates.jpg" alt="Pirates"><br>캐리비안의 해적</li>
+                </ul>
+            </div>
+            <div id="hobby" class="hobby">
+                <h1>취미생활</h1>
+                <p>골프 ﹒ 게임 ﹒ 영화</p>
+                <ul class="game-list">
+                    <li><img src="./images/zelda.jpg" alt="젤다" class="list-icon">젤다의 전설 야생의 숨결</li>
+                    <li><img src="./images/sp.jpg" alt="스플래툰" class="list-icon">스플래툰</li>
+                </ul>
+            </div>
+            
+            <div id="fourth" class="fourth"></div>
+        </div>
+        <a href="#" class="back-btn">처음으로 돌아가기</a>
+    </div>
+</body>
+</html>

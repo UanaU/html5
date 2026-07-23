@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>KBO 순위표</title>
+    <style>
+      body {
+        font-family: "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+        color: #333;
+      }
+
+      .table-container {
+        max-width: 1000px;
+        margin: 20px auto;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        text-align: center;
+      }
+
+      thead th {
+        border-top: 1px solid #333;
+        border-bottom: 1px solid #e0e0e0;
+        padding: 15px 10px;
+        font-size: 14px;
+        font-weight: normal;
+        color: #666;
+      }
+
+      tbody td {
+        padding: 15px 10px;
+        border-bottom: 1px solid #e0e0e0;
+        font-size: 15px;
+        vertical-align: middle;
+      }
+
+      .rank-num {
+        font-weight: bold;
+        font-size: 16px;
+      }
+
+      .team-col .arrow {
+        color: #999;
+        font-size: 12px;
+        margin-left: 2px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>순위</th>
+            <th>팀</th>
+            <th>경기</th>
+            <th>승</th>
+            <th>무</th>
+            <th>패</th>
+            <th class="wpct-col">승률</th>
+            <th>게임차</th>
+            <th>연속</th>
+          </tr>
+        </thead>
+        <tbody id="team-standings"></tbody>
+      </table>
+    </div>
+
+    <script>
+      const jsonUrl =
+        "https://prof-jwchi.github.io/kopo-front2026/Json/baseball.json";
+
+      fetch(jsonUrl)
+        .then((response) => response.json())
+        .then((data) => {
+          const tbody = document.getElementById("team-standings");
+
+          data.list.forEach((team) => {
+            const tr = document.createElement("tr");
+            tr.innerHTML = `
+              <td class="rank-num">${team.rank.rank}</td>
+              <td>${team.shortName}</td>
+              <td>${team.rank.game}</td>
+              <td>${team.rank.win}</td>
+              <td>${team.rank.draw}</td>
+              <td>${team.rank.loss}</td>
+              <td class="wpct-col">${team.rank.wpct}</td>
+              <td>${team.rank.gb}</td>
+              <td>${team.rank.streak}</td>
+            `;
+            tbody.appendChild(tr);
+          });
+        })
+        .catch((error) => {
+          console.error("JSON 파일을 가져오는 데 실패했습니다.", error);
+        });
+    </script>
+  </body>
+</html>

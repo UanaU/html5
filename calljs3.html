@@ -1,0 +1,258 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>책 펼래 인생 펼래?</title>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Hahmlet:wght@400;600;900&display=swap");
+
+      :root {
+        --color-gold: #d4af37;
+        --color-dark-bg: #0a0a0c;
+        --color-shrine-red: #8b0000;
+        --color-paper: #ffe55c;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Hahmlet", "Noto Serif KR", serif;
+        background: radial-gradient(
+          circle at center,
+          #2b2532 0%,
+          #0a0a0c 80%,
+          #000000 100%
+        );
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        margin: 0;
+        padding: 20px;
+        color: #f1e2b5;
+        perspective: 1000px;
+      }
+
+      .container-wrapper {
+        transition: transform 0.1s ease-out;
+        transform-style: preserve-3d;
+      }
+
+      .container {
+        background: rgba(18, 16, 20, 0.85);
+        padding: 40px 30px;
+        border: 2px solid #6b5a45;
+        border-radius: 12px;
+        text-align: center;
+        width: 100%;
+        max-width: 600px;
+        position: relative;
+        transform: translateZ(30px);
+      }
+
+      .container::before,
+      .container::after {
+        content: "";
+        position: absolute;
+        width: 35px;
+        height: 35px;
+        border: 3px solid var(--color-gold);
+        opacity: 0.6;
+      }
+      .container::before {
+        top: 15px;
+        left: 15px;
+        border-right: none;
+        border-bottom: none;
+      }
+      .container::after {
+        bottom: 15px;
+        right: 15px;
+        border-left: none;
+        border-top: none;
+      }
+
+      h1 {
+        font-size: clamp(24px, 5vw, 36px);
+        margin: 0 0 40px 0;
+        font-weight: 900;
+        letter-spacing: 3px;
+        position: relative;
+        transform: translateZ(40px);
+      }
+
+      #result {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin-bottom: 40px;
+        min-height: 80px;
+        position: relative;
+        transform: translateZ(50px);
+      }
+
+      .ball {
+        width: 56px;
+        height: 56px;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 22px;
+        font-weight: 900;
+        font-family: "Pretendard", sans-serif;
+        color: #ffffff;
+        border: 2px solid rgba(255, 255, 255, 0.5);
+        opacity: 0;
+      }
+
+      .ball.revealed {
+        opacity: 1;
+      }
+
+      .plus-sign {
+        font-size: 28px;
+        font-weight: 900;
+        color: var(--color-gold);
+        margin: 0 4px;
+        opacity: 0;
+        animation: fadeIn 0.7s forwards;
+        flex-shrink: 0;
+      }
+
+      .ball.yellow-text {
+        color: #111;
+        text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.7);
+      }
+      .ball.white-text {
+        text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.9);
+      }
+
+      @keyframes fadeIn {
+        to {
+          opacity: 1;
+        }
+      }
+
+      #btn {
+        background: linear-gradient(
+          135deg,
+          var(--color-paper) 0%,
+          #f6c026 100%
+        );
+        color: var(--color-shrine-red);
+        border: 2px solid var(--color-shrine-red);
+        padding: 16px 36px;
+        font-size: clamp(18px, 4vw, 24px);
+        font-weight: 900;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-family: "Hahmlet", serif;
+        letter-spacing: 4px;
+        position: relative;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="lightning-overlay"></div>
+    <div class="container-wrapper" id="main-wrapper">
+      <div class="container">
+        <h1><span>⛩</span> 조상님도 울고갈 적중률 🍀</h1>
+        <div id="result"></div>
+        <button id="btn">인생 펴기</button>
+      </div>
+    </div>
+
+    <script>
+      const btn = document.getElementById("btn");
+      const result = document.getElementById("result");
+      const wrapper = document.getElementById("main-wrapper");
+      const lightning = document.getElementById("lightning-overlay");
+
+      function getBallColor(number) {
+        if (number <= 10) return "#fbc400";
+        if (number <= 20) return "#42a5f5";
+        if (number <= 30) return "#ef5350";
+        if (number <= 40) return "#757575";
+        return "#8bc34a";
+      }
+
+      btn.addEventListener("click", () => {
+        btn.disabled = true;
+        result.innerHTML = "";
+
+        const numbers = [];
+        while (numbers.length < 6) {
+          const num = Math.floor(Math.random() * 45) + 1;
+          if (!numbers.includes(num)) {
+            numbers.push(num);
+          }
+        }
+        numbers.sort((a, b) => a - b);
+
+        let bonus = 0;
+        while (true) {
+          const num = Math.floor(Math.random() * 45) + 1;
+          if (!numbers.includes(num)) {
+            bonus = num;
+            break;
+          }
+        }
+
+        const displayItems = [...numbers, "+", bonus];
+
+        displayItems.forEach((item, index) => {
+          setTimeout(
+            () => {
+              if (item === "+") {
+                const plus = document.createElement("div");
+                plus.classList.add("plus-sign");
+                plus.textContent = "+";
+                result.appendChild(plus);
+              } else {
+                const ball = document.createElement("div");
+                ball.classList.add("ball");
+                ball.style.backgroundColor = "#222";
+                result.appendChild(ball);
+
+                let ticks = 0;
+                const maxTicks = 20;
+
+                const rouletteInterval = setInterval(() => {
+                  ball.textContent = Math.floor(Math.random() * 45) + 1;
+                  ticks++;
+
+                  if (ticks >= maxTicks) {
+                    clearInterval(rouletteInterval);
+                    // 최종 번호 고정
+                    ball.textContent = item;
+                    ball.style.backgroundColor = getBallColor(item);
+
+                    if (item <= 10) ball.classList.add("yellow-text");
+                    else ball.classList.add("white-text");
+
+                    // opacity 1을 유지하며 번쩍이는 클래스 추가!
+                    ball.classList.add("revealed");
+                  }
+                }, 50);
+              }
+
+              if (index === displayItems.length - 1) {
+                setTimeout(() => {
+                  btn.disabled = false;
+                }, 1000);
+              }
+            },
+            300 + index * 400,
+          );
+        });
+      });
+    </script>
+  </body>
+</html>
